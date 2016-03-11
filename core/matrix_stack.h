@@ -6,7 +6,7 @@
  */
 
 #include "matrix.h"
-#include "stdcore/array.h"
+#include "core/array.h"
 
 using namespace core;
 

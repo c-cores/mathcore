@@ -1,6 +1,6 @@
 CXXFLAGS	:= -O2 -g -Wall -fmessage-length=0
 INCLUDES	:= -I../stdcore
-SOURCES		:= $(shell find mathcore -name '*.cpp')
+SOURCES		:= $(shell find core -name '*.cpp')
 OBJECTS		:= $(SOURCES:%.cpp=%.o)
 TARGET		:= libmathcore.a
 
