@@ -364,7 +364,7 @@ Integer operator+(Integer i1, Integer i2)
 	}
 
 	while (result.data.size() > 0 && result.data.back() == result.sign)
-		result.data.pop_back();
+		result.data.drop_back();
 
 	return result;
 }
@@ -412,7 +412,7 @@ Integer operator-(Integer i1, Integer i2)
 	}
 
 	while (result.data.size() > 0 && result.data.back() == result.sign)
-		result.data.pop_back();
+		result.data.drop_back();
 
 	return result;
 }
@@ -479,7 +479,7 @@ Integer operator*(Integer i1, Integer i2)
 			}
 
 			partial_products[i][j-1] += partial_products[i][j];
-			partial_products[i].pop_back();
+			partial_products[i].drop_back();
 			if (partial_products[i][j-1] < 0)
 			{
 				carry++;
@@ -501,7 +501,7 @@ Integer operator*(Integer i1, Integer i2)
 	result.sign = result.data.back();
 
 	while (result.data.size() > 0 && result.data.back() == result.sign)
-		result.data.pop_back();
+		result.data.drop_back();
 
 	return result;
 }
@@ -794,7 +794,7 @@ Integer operator<<(Integer i1, int i2)
 		result.sign = i1.sign;
 
 		while (result.data.size() > 0 && result.data.back() == result.sign)
-			result.data.pop_back();
+			result.data.drop_back();
 
 		return result;
 	}
@@ -821,7 +821,7 @@ Integer operator>>(Integer i1, int i2)
 			result.data.push_back(((i1.data.back() >> b) | (i1.sign << (31 - b))) & 0x7FFFFFFF);
 
 			while (result.data.size() > 0 && result.data.back() == result.sign)
-				result.data.pop_back();
+				result.data.drop_back();
 		}
 
 		return result;
@@ -964,7 +964,7 @@ void Real::realign()
 {
 	while (num.data.size() > 0 && num.data[0] == 0)
 	{
-		num.data.pop_front();
+		num.data.drop_front();
 		exp += 31;
 	}
 

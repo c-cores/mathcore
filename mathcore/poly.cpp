@@ -38,10 +38,10 @@ void simple_poly::simplify()
 			terms[i].c == terms[i-1].c && terms[i].d == terms[i-1].d)
 		{
 			terms[i-1].coeff += terms[i].coeff;
-			terms.pop(i);
+			terms.at(i).drop();
 		}
 		else if (terms[i].coeff < 0.00001 && terms[i].coeff > -0.00001)
-			terms.pop(i);
+			terms.at(i).drop();
 		else
 			i++;
 	}
@@ -186,10 +186,10 @@ simple_poly operator+(simple_poly p, term t)
 	if (i < p.terms.size() && p.terms[i] == t)
 		p.terms[i].coeff += t.coeff;
 	else
-		p.terms.push(i, t);
+		p.terms.at(i).push(t);
 
 	if (p.terms[i].coeff < 0.00001 && p.terms[i].coeff > -0.00001)
-		p.terms.pop(i);
+		p.terms.at(i).drop();
 
 	return p;
 }
@@ -208,10 +208,10 @@ simple_poly operator+(term t, simple_poly p)
 	if (i < p.terms.size() && p.terms[i] == t)
 		p.terms[i].coeff += t.coeff;
 	else
-		p.terms.push(i, t);
+		p.terms.at(i).push(t);
 
 	if (p.terms[i].coeff < 0.00001 && p.terms[i].coeff > -0.00001)
-		p.terms.pop(i);
+		p.terms.at(i).drop();
 
 	return p;
 }
@@ -282,10 +282,10 @@ simple_poly operator-(simple_poly p, term t)
 	if (i < p.terms.size() && p.terms[i] == t)
 		p.terms[i].coeff -= t.coeff;
 	else
-		p.terms.push(i, t);
+		p.terms.at(i).push(t);
 
 	if (p.terms[i].coeff < 0.00001 && p.terms[i].coeff > -0.00001)
-		p.terms.pop(i);
+		p.terms.at(i).drop();
 
 	return p;
 }
@@ -305,10 +305,10 @@ simple_poly operator-(term t, simple_poly p)
 	if (i < p.terms.size() && p.terms[i] == t)
 		p.terms[i].coeff = t.coeff - p.terms[i].coeff;
 	else
-		p.terms.push(i, t);
+		p.terms.at(i).push(t);
 
 	if (p.terms[i].coeff < 0.00001 && p.terms[i].coeff > -0.00001)
-		p.terms.pop(i);
+		p.terms.at(i).drop();
 	else
 		i++;
 
@@ -330,7 +330,7 @@ simple_poly operator-(double d, simple_poly p)
 		p.terms.push_back(term(d, 0, 0, 0, 0));
 
 	if (p.terms.back().coeff < 0.00001 && p.terms.back().coeff > -0.00001)
-		p.terms.pop_back();
+		p.terms.drop_back();
 
 	return p;
 }
@@ -344,7 +344,7 @@ simple_poly operator-(simple_poly p, double d)
 		p.terms.push_back(term(d, 0, 0, 0, 0));
 
 	if (p.terms.back().coeff < 0.00001 && p.terms.back().coeff > -0.00001)
-		p.terms.pop_back();
+		p.terms.drop_back();
 
 	return p;
 }

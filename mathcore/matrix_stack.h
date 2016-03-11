@@ -103,17 +103,17 @@ struct matrix_stack : array<matrix<t, s, s> >
 		array<matrix<t, s, s> >::push_back(identity<t, s, s>());
 	}
 
-	void pop()
+	void drop()
 	{
 		updated = false;
-		array<matrix<t, s, s> >::pop_back();
+		array<matrix<t, s, s> >::drop_back();
 	}
 
 	void update()
 	{
 		total = identity<t, s, s>();
 		for (int i = 0; i < array<matrix<t, s, s> >::size(); i++)
-			total *= array<matrix<t, s, s> >::at(i);
+			total *= array<matrix<t, s, s> >::get(i);
 		updated = true;
 	}
 
