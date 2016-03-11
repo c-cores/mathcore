@@ -1,16 +1,17 @@
-CXXFLAGS	 =  -O2 -g -Wall -fmessage-length=0
-SOURCES	    :=  $(shell find core -name '*.cpp')
-OBJECTS	    :=  $(SOURCES:%.cpp=%.o)
-LDFLAGS		 =  
-TARGET		 =  libcore.a
+CXXFLAGS	=  -O2 -g -Wall -fmessage-length=0
+SOURCES		:=  $(shell find mathcore -name '*.cpp')
+OBJECTS		:=  $(SOURCES:%.cpp=%.o)
+INC_PATHS	= ../stdcore/stdcore
+LDFLAGS		=  
+TARGET		=  libmathcore.a
 
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	ar rvs $(TARGET) $(OBJECTS)
 
-%.o: core/%.cpp 
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c -o $@ $<
+%.o: mathcore/%.cpp 
+	$(CXX) ${INC_PATHS} $(CXXFLAGS) $(LDFLAGS) -c -o $@ $<
 	
 clean:
 	rm -f $(OBJECTS) $(TARGET)
