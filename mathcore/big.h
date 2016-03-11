@@ -21,8 +21,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "array.h"
-#include "file.h"
+#include "stdcore/array.h"
+#include "stdcore/file.h"
 
 #ifndef big_h
 #define big_h

@@ -6,9 +6,9 @@
  */
 
 #include "term.h"
-#include "array.h"
-#include "pair.h"
-#include "algorithm.h"
+#include "stdcore/array.h"
+#include "stdcore/pair.h"
+#include "stdcore/algorithm.h"
 
 #ifndef poly_h
 #define poly_h
