@@ -6,6 +6,8 @@
  */
 
 #include "poly.h"
+#include <core/search.h>
+#include <core/sort.h>
 
 namespace core
 {
@@ -17,10 +19,10 @@ simple_poly::simple_poly()
 
 simple_poly::simple_poly(string s)
 {
-	int i, j;
-	for (i = s.find_first_of("+"), j = 0; i != -1; j = i+1, i = s.find_first_of("+", j))
-		terms.push_back(term(s.substr(j, i-j)));
-	terms.push_back(term(s.substr(j)));
+	string::iterator i, j;
+	for (i = find_first(s.ref(), '+'), j = s.begin(); i != s.end(); j = i+1, i = find_first(j.sub(), '+'))
+		terms.push_back(term(j.sub(i-j)));
+	terms.push_back(term(j.sub()));
 }
 
 simple_poly::~simple_poly()
@@ -30,7 +32,7 @@ simple_poly::~simple_poly()
 
 void simple_poly::simplify()
 {
-	sort_quick(terms);
+	sort_quick(terms.ref());
 
 	for (int i = 1; i < terms.size(); )
 	{
@@ -366,7 +368,7 @@ simple_poly operator*(simple_poly p, term t)
 	for (i = 0; i < p.terms.size(); i++)
 		p.terms[i] *= t;
 
-	sort_quick(p.terms);
+	sort_quick(p.terms.ref());
 	return p;
 }
 
@@ -375,7 +377,7 @@ simple_poly operator*(term t, simple_poly p)
 	for (int i = 0; i < p.terms.size(); i++)
 		p.terms[i] *= t;
 
-	sort_quick(p.terms);
+	sort_quick(p.terms.ref());
 	return p;
 }
 
@@ -398,7 +400,7 @@ simple_poly operator/(simple_poly p, term t)
 	for (int i = 0; i < p.terms.size(); i++)
 		p.terms[i] /= t;
 
-	sort_quick(p.terms);
+	sort_quick(p.terms.ref());
 	return p;
 }
 
@@ -467,12 +469,12 @@ poly::poly()
 
 poly::poly(string s)
 {
-	int p0 = s.find_first_of("(");
-	int p1 = s.find_first_of(")");
-	int p2 = s.find_last_of("(");
-	int p3 = s.find_last_of(")");
-	string n = s.substr(p0+1, p1 - p0 - 1);
-	string d = s.substr(p2+1, p3 - p2 - 1);
+	string::iterator p0 = find_first(s.ref(), '(');
+	string::iterator p1 = find_first(s.ref(), ')');
+	string::iterator p2 = find_last(s.ref(), '(');
+	string::iterator p3 = find_last(s.ref(), ')');
+	string n = slice<string>(p0+1, p1);
+	string d = slice<string>(p2+1, p3);
 
 	numerator = simple_poly(n);
 	denominator = simple_poly(d);

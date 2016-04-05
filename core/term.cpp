@@ -6,6 +6,7 @@
  */
 
 #include "term.h"
+#include <core/search.h>
 
 namespace core
 {
@@ -30,16 +31,16 @@ term::term(double co, int x, int y, int z, int w)
 
 term::term(string s)
 {
-	int x = s.find_first_of("x");
-	int y = s.find_first_of("y");
-	int z = s.find_first_of("z");
-	int w = s.find_first_of("w");
+	string::iterator x = find_first(s.ref(), 'x')+1;
+	string::iterator y = find_first(s.ref(), 'y')+1;
+	string::iterator z = find_first(s.ref(), 'z')+1;
+	string::iterator w = find_first(s.ref(), 'w')+1;
 
-	coeff = s.substr(0, x).to_double();
-	a = s.substr(x+1, y-x-1).to_long();
-	b = s.substr(y+1, z-y-1).to_long();
-	c = s.substr(z+1, w-z-1).to_long();
-	d = s.substr(w+1).to_long();
+	coeff = strtod(s.ptr(0), NULL);
+	a = strtol(x.ptr(), NULL, 10);
+	b = strtol(y.ptr(), NULL, 10);
+	c = strtol(z.ptr(), NULL, 10);
+	d = strtol(w.ptr(), NULL, 10);
 }
 
 term::~term()

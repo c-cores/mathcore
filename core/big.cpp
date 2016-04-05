@@ -97,7 +97,7 @@ Integer::Integer(float i)
 	{
 		i /= 2147483648.0;
 		double fractional = (i - trunc(i));
-		data.push_back((unsigned int)(2147483648.0*fractional));
+		data.push_back((int)(2147483648.0*fractional));
 		i -= fractional;
 	}
 
@@ -120,7 +120,7 @@ Integer::Integer(double i)
 	{
 		i /= 2147483648.0;
 		double fractional = (i - trunc(i));
-		data.push_back((unsigned int)(2147483648.0*fractional));
+		data.push_back((int)(2147483648.0*fractional));
 		i -= fractional;
 	}
 
@@ -420,7 +420,7 @@ Integer operator-(Integer i1, Integer i2)
 Integer operator*(Integer i1, Integer i2)
 {
 	array<array<int> > partial_products;
-	partial_products.extend(i1.data.size() + i2.data.size()+2);
+	partial_products.push_back(i1.data.size() + i2.data.size()+2, array<int>());
 
 	int vali, valj;
 
@@ -783,7 +783,7 @@ Integer operator<<(Integer i1, int i2)
 		int b = i2%31;
 
 		Integer result;
-		result.data.resize(i1.data.size() + a + 1);
+		result.data.push_back(i1.data.size() + a + 1, 0);
 
 		result.data.back() = ((i1.sign << b) & 0x7FFFFFFF) | ((i1.data.back() >> (31 - b)) & 0x7FFFFFFF);
 		for (int i = a+1; i < result.data.size()-1; i++)
@@ -941,8 +941,8 @@ Real::Real(double f)
 	else
 	{
 		int *fi = (int*)&f;
-		num.data.push_back(*fi & 0x7FFFFFFF);
-		num.data.push_back(((*(fi+1) & 0x000FFFFF) << 1) | ((*fi & 0x80000000) >> 31) | 0x00200000);
+		num.data.push_back((int)(*fi & 0x7FFFFFFF));
+		num.data.push_back((int)(((*(fi+1) & 0x000FFFFF) << 1) | ((*fi & 0x80000000) >> 31) | 0x00200000));
 		exp = ((*(fi+1) & 0x7FF00000) >> 20) - 1075;
 		if ((*(fi+1) & 0x80000000) != 0)
 			num = -num;

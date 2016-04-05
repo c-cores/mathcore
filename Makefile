@@ -13,4 +13,4 @@ $(TARGET): $(OBJECTS)
 	$(CXX) $(INCLUDES) $(CXXFLAGS) -c -o $@ $<
 	
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f core/*.o $(TARGET)
