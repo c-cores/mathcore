@@ -21,10 +21,11 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "big.h"
-#include "vector.h"
-#include "core/file.h"
-#include "math.h"
+#include <math/big.h>
+#include <math/vector.h>
+#include <std/math.h>
+
+#include <std/ascii_stream.h>
 
 #ifndef matrix_h
 #define matrix_h
@@ -352,7 +353,7 @@ struct matrix
 };
 
 template <class t, int v, int h>
-file &operator<<(file &f, matrix<t, v, h> m)
+ascii_stream &operator<<(ascii_stream &f, matrix<t, v, h> m)
 {
 	for (int i = 0; i < v; i++)
 		f << m[i] << endl;

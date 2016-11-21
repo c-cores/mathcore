@@ -21,8 +21,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "core/array.h"
-#include "core/file.h"
+#include <std/array.h>
+#include <std/ascii_stream.h>
 
 #ifndef big_h
 #define big_h
@@ -68,7 +68,7 @@ struct Integer
 	Integer &operator>>=(Integer i);
 };
 
-file &operator<<(file &f, Integer i);
+ascii_stream &operator<<(ascii_stream &f, Integer i);
 
 Integer operator-(Integer i);
 
@@ -130,7 +130,7 @@ struct Real
 	Real &operator/=(Real f);
 };
 
-file &operator<< (file &fin, Real f);
+ascii_stream &operator<< (ascii_stream &fin, Real f);
 
 Real operator-(Real f);
 

@@ -5,8 +5,8 @@
  *      Author: nbingham
  */
 
-#include "term.h"
-#include <core/search.h>
+#include <math/term.h>
+#include <std/search.h>
 
 namespace core
 {
@@ -31,10 +31,10 @@ term::term(double co, int x, int y, int z, int w)
 
 term::term(string s)
 {
-	string::iterator x = find_first(s.ref(), 'x')+1;
-	string::iterator y = find_first(s.ref(), 'y')+1;
-	string::iterator z = find_first(s.ref(), 'z')+1;
-	string::iterator w = find_first(s.ref(), 'w')+1;
+	string::iterator x = find_first(s, 'x')+1;
+	string::iterator y = find_first(s, 'y')+1;
+	string::iterator z = find_first(s, 'z')+1;
+	string::iterator w = find_first(s, 'w')+1;
 
 	coeff = strtod(s.ptr(0), NULL);
 	a = strtol(x.ptr(), NULL, 10);
@@ -98,7 +98,7 @@ int term::degree()
 	return deg;
 }
 
-file &operator<<(file &fout, term t)
+ascii_stream &operator<<(ascii_stream &fout, term t)
 {
 	double co = t.coeff;
 	if (co < 0.0)

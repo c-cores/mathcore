@@ -1,4 +1,5 @@
-#include "noise.h"
+#include <math/noise.h>
+#include <std/fill.h>
 
 namespace core
 {
@@ -321,7 +322,7 @@ grad3f fBm(gvec3f point, float H, float lacunarity, float octaves, const noise3h
 	if (first)
 	{
 		/* seize required memory for exponent_array */
-		exponent_array.push_back(octaves+1, 0.0f);
+		exponent_array.append_back(fill<float>(octaves+1, 0.0f));
 		frequency = 1.0;
 		for (int i = 0; i <= octaves; i++)
 		{
@@ -373,7 +374,7 @@ grad3f multifractal(gvec3f point, float H, float lacunarity, float octaves, floa
 	if (first)
 	{
 		/* seize required memory for exponent_array */
-		exponent_array.push_back(octaves+1, 0.0f);
+		exponent_array.append_back(fill<float>(octaves+1, 0.0f));
 		frequency = 1.0;
 		for (int i = 0; i <= octaves; i++)
 		{
@@ -422,7 +423,7 @@ grad3f ridge_noise(gvec3f point, float H, float lacunarity, float octaves, float
 	if (first)
 	{
 		/* seize required memory for exponent_array */
-		exponent_array.push_back(octaves+1, 0.0f);
+		exponent_array.append_back(fill<float>(octaves+1, 0.0f));
 		frequency = 1.0;
 		for (int i = 0; i <= octaves; i++)
 		{

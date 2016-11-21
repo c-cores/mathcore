@@ -21,8 +21,10 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "big.h"
-#include "math.h"
+#include <math/big.h>
+#include <std/math.h>
+#include <std/ascii_stream.h>
+#include <std/fill.h>
 #include <float.h>
 
 namespace core
@@ -295,7 +297,7 @@ Integer &Integer::operator>>=(Integer i)
 	return *this;
 }
 
-file &operator<<(file &f, Integer i)
+ascii_stream &operator<<(ascii_stream &f, Integer i)
 {
 	f << (double)i << " " << to_hex(i.data) << " " << i.sign;
 	return f;
@@ -420,7 +422,7 @@ Integer operator-(Integer i1, Integer i2)
 Integer operator*(Integer i1, Integer i2)
 {
 	array<array<int> > partial_products;
-	partial_products.push_back(i1.data.size() + i2.data.size()+2, array<int>());
+	partial_products.append_back(fill<array<int> >(i1.data.size() + i2.data.size()+2, array<int>()));
 
 	int vali, valj;
 
@@ -495,7 +497,7 @@ Integer operator*(Integer i1, Integer i2)
 		if (carry > 0 && i+1 < partial_products.size())
 			partial_products[i+1].push_back(carry);
 		else if (carry > 0)
-			partial_products.push_back(array<int>(1, carry));
+			partial_products.push_back(array<int>(fill<int>(1, carry)));
 	}
 
 	result.sign = result.data.back();
@@ -783,7 +785,7 @@ Integer operator<<(Integer i1, int i2)
 		int b = i2%31;
 
 		Integer result;
-		result.data.push_back(i1.data.size() + a + 1, 0);
+		result.data.append_back(fill<int>(i1.data.size() + a + 1, 0));
 
 		result.data.back() = ((i1.sign << b) & 0x7FFFFFFF) | ((i1.data.back() >> (31 - b)) & 0x7FFFFFFF);
 		for (int i = a+1; i < result.data.size()-1; i++)
@@ -1010,7 +1012,7 @@ Real &Real::operator/=(Real f)
 	return *this;
 }
 
-file &operator<<(file &fout, Real f)
+ascii_stream &operator<<(ascii_stream &fout, Real f)
 {
 	fout << (double)f << " " << f.exp << " " << f.num;
 	return fout;

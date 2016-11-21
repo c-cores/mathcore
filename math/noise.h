@@ -1,6 +1,6 @@
-#include "vector.h"
-#include "geometry.h"
-#include "gradient.h"
+#include <math/vector.h>
+#include <math/geometry.h>
+#include <math/gradient.h>
 
 #ifndef noise_h
 #define noise_h

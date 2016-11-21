@@ -1,5 +1,5 @@
-#include "vector.h"
-#include "string.h"
+#include <math/vector.h>
+#include <std/string.h>
 
 #ifndef term_h
 #define term_h
@@ -39,7 +39,7 @@ struct term
 	int degree();
 };
 
-file &operator<<(file &os, term t);
+ascii_stream &operator<<(ascii_stream &os, term t);
 
 term operator-(term t);
 

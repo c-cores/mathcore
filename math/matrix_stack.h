@@ -5,8 +5,8 @@
  *      Author: nbingham
  */
 
-#include "matrix.h"
-#include "core/array.h"
+#include <math/matrix.h>
+#include <std/array.h>
 
 using namespace core;
 

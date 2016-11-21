@@ -5,7 +5,7 @@
  *      Author: nbingham
  */
 
-#include "vector.h"
+#include <math/vector.h>
 
 #ifndef shape_h
 #define shape_h

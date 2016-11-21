@@ -21,12 +21,12 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "big.h"
-#include "complex.h"
-#include "vector.h"
-#include "matrix.h"
-#include "poly.h"
-#include "gradient.h"
+#include <math/big.h>
+#include <math/complex.h>
+#include <math/vector.h>
+#include <math/matrix.h>
+#include <math/poly.h>
+#include <math/gradient.h>
 
 #ifndef geometry_h
 #define geometry_h

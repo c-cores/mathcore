@@ -5,9 +5,9 @@
  *      Author: nbingham
  */
 
-#include "poly.h"
-#include <core/search.h>
-#include <core/sort.h>
+#include <math/poly.h>
+#include <std/search.h>
+#include <std/sort.h>
 
 namespace core
 {
@@ -20,7 +20,7 @@ simple_poly::simple_poly()
 simple_poly::simple_poly(string s)
 {
 	string::iterator i, j;
-	for (i = find_first(s.ref(), '+'), j = s.begin(); i != s.end(); j = i+1, i = find_first(j.sub(), '+'))
+	for (i = find_first(s, '+'), j = s.begin(); i != s.end(); j = i+1, i = find_first(j.sub(), '+'))
 		terms.push_back(term(j.sub(i-j)));
 	terms.push_back(term(j.sub()));
 }
@@ -32,7 +32,7 @@ simple_poly::~simple_poly()
 
 void simple_poly::simplify()
 {
-	sort_quick(terms.ref());
+	sort_quick_inplace(terms);
 
 	for (int i = 1; i < terms.size(); )
 	{
@@ -140,7 +140,7 @@ simple_poly simple_poly::operator()(vector<simple_poly, 4> f)
 	return result;
 }
 
-file &operator<<(file &fout, simple_poly p)
+ascii_stream &operator<<(ascii_stream &fout, simple_poly p)
 {
 	for (int i = 0; i < p.terms.size(); i++)
 	{
@@ -368,7 +368,7 @@ simple_poly operator*(simple_poly p, term t)
 	for (i = 0; i < p.terms.size(); i++)
 		p.terms[i] *= t;
 
-	sort_quick(p.terms.ref());
+	sort_quick_inplace(p.terms);
 	return p;
 }
 
@@ -377,7 +377,7 @@ simple_poly operator*(term t, simple_poly p)
 	for (int i = 0; i < p.terms.size(); i++)
 		p.terms[i] *= t;
 
-	sort_quick(p.terms.ref());
+	sort_quick_inplace(p.terms);
 	return p;
 }
 
@@ -400,7 +400,7 @@ simple_poly operator/(simple_poly p, term t)
 	for (int i = 0; i < p.terms.size(); i++)
 		p.terms[i] /= t;
 
-	sort_quick(p.terms.ref());
+	sort_quick_inplace(p.terms);
 	return p;
 }
 
@@ -469,12 +469,12 @@ poly::poly()
 
 poly::poly(string s)
 {
-	string::iterator p0 = find_first(s.ref(), '(');
-	string::iterator p1 = find_first(s.ref(), ')');
-	string::iterator p2 = find_last(s.ref(), '(');
-	string::iterator p3 = find_last(s.ref(), ')');
-	string n = slice<string>(p0+1, p1);
-	string d = slice<string>(p2+1, p3);
+	string::iterator p0 = find_first(s, '(');
+	string::iterator p1 = find_first(s, ')');
+	string::iterator p2 = find_last(s, '(');
+	string::iterator p3 = find_last(s, ')');
+	string n = string::sub(p0+1, p1);
+	string d = string::sub(p2+1, p3);
 
 	numerator = simple_poly(n);
 	denominator = simple_poly(d);
@@ -568,7 +568,7 @@ poly poly::operator()(vector<poly, 4> f)
 	return n/d;
 }
 
-file &operator<<(file &fout, poly p)
+ascii_stream &operator<<(ascii_stream &fout, poly p)
 {
 	fout << "(" << p.numerator << ")/(" << p.denominator << ")";
 	return fout;

@@ -5,7 +5,7 @@
  *      Author: nbingham
  */
 
-#include "vector.h"
+#include <math/vector.h>
 
 #ifndef gradient_h
 #define gradient_h
@@ -124,7 +124,7 @@ struct gradient
 };
 
 template <class t, int s>
-file &operator<<(file &os, gradient<t, s> g)
+ascii_stream &operator<<(ascii_stream &os, gradient<t, s> g)
 {
 	os << "(" << g.elems[s] << ": ";
 	for (int i = 0; i < s; i++)

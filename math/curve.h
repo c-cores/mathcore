@@ -5,7 +5,7 @@
  *      Author: nbingham
  */
 
-#include "gradient.h"
+#include <math/gradient.h>
 
 #ifndef curve_h
 #define curve_h
