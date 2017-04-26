@@ -35,10 +35,13 @@ struct Integer
 	Integer();
 	Integer(int i);
 	Integer(unsigned int i);
+	Integer(long i);
+	Integer(unsigned long i);
 	Integer(long long i);
 	Integer(unsigned long long i);
 	Integer(float i);
 	Integer(double i);
+	Integer(const char *s);
 	~Integer();
 
 	int sign;

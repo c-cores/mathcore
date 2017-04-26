@@ -58,6 +58,32 @@ Integer::Integer(unsigned int i)
 	sign = 0;
 }
 
+Integer::Integer(long i)
+{
+	bool neg = (i < 0);
+	i *= -1;
+
+	while (i > 0)
+	{
+		data.push_back((int)(i & 0x7FFFFFFF));
+		i >>= 31;
+	}
+	sign = 0;
+
+	if (neg)
+		*this = -*this;
+}
+
+Integer::Integer(unsigned long i)
+{
+	while (i > 0)
+	{
+		data.push_back((int)(i & 0x7FFFFFFF));
+		i >>= 31;
+	}
+	sign = 0;
+}
+
 Integer::Integer(long long i)
 {
 	bool neg = (i < 0);
@@ -128,6 +154,47 @@ Integer::Integer(double i)
 
 	if (neg)
 		*this = -*this;
+}
+
+Integer::Integer(const char *s)
+{
+	int length = strlen(s);
+	int width = length*4;
+	
+	int offset = 0;
+	int value = 0;
+	int value_width = 0;
+
+	data.resize((width+30)/31, 0);
+	while (offset < width)
+	{
+		int i = offset/31;
+		int j = offset%31;
+
+		if (value_width == 0)
+		{
+			value_width = 4;
+			char c = s[length - offset/4 - 1];
+			if (c >= '0' && c <= '9')
+				value = c-'0';
+			else if (c >= 'a' && c <= 'f')
+				value = 10 + (c-'a');
+			else if (c >= 'A' && c <= 'F')
+				value = 10 + (c-'A');
+			else
+				value = 0;
+		}
+
+		data[i] = (data[i] ^ (value << j)) & 0x7FFFFFFF;
+		int s = min(value_width, 31-j);
+		value >>= s;
+		offset += s;
+		value_width -= s;
+	}	
+
+	for (int i = 0; i < data.size(); i++)
+		printf("%8X ", data[i]);
+	printf("\n");
 }
 
 Integer::~Integer()
