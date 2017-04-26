@@ -32,7 +32,7 @@ math/%.o: math/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 $(TEST_TARGET): $(TEST_OBJECTS) test/gtest_main.o
-	$(CXX) $(CXXFLAGS) $(GTEST_L) $(TEST_OBJECTS) test/gtest_main.o -pthread -lstdcore -lgtest -o $(TEST_TARGET)
+	$(CXX) $(CXXFLAGS) $(GTEST_L) $(TEST_OBJECTS) test/gtest_main.o -pthread -lmathcore -lstdcore -lgtest -o $(TEST_TARGET)
 
 test/%.o: test/%.cpp
 	$(CXX) $(CXXFLAGS) $(GTEST_I) -MM -MF $(patsubst %.o,%.d,$@) -MT $@ -c $<

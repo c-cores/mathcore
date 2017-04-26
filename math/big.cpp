@@ -134,6 +134,39 @@ Integer::~Integer()
 {
 }
 
+Integer Integer::rand(int width)
+{
+	static int rand_width = 0;
+	if (rand_width == 0)
+		rand_width = log2i(RAND_MAX);
+
+	Integer result;
+	int offset = 0;
+	int value = 0;
+	int value_width = 0;
+
+	result.data.resize((width+30)/31, 0);
+	while (offset < width)
+	{
+		int i = offset/31;
+		int j = offset%31;
+
+		if (value_width == 0)
+		{
+			value_width = min(rand_width, width-offset);
+			value = ::rand() & ((1 << value_width)-1);
+		}
+
+		result.data[i] = (result.data[i] ^ (value << j)) & 0x7FFFFFFF;
+		int s = min(value_width, 31-j);
+		value >>= s;
+		offset += s;
+		value_width -= s;
+	}	
+
+	return result;
+}
+
 Integer::operator double()
 {
 	double result = 0;

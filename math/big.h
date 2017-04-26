@@ -44,6 +44,8 @@ struct Integer
 	int sign;
 	array<int> data;
 
+	static Integer rand(int width);
+	
 	operator double();
 
 	template <class t>
