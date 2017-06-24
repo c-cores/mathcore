@@ -6,9 +6,8 @@ OBJECTS		 := $(SOURCES:%.cpp=%.o)
 TEST_OBJECTS := $(TESTS:.cpp=.o)
 DEPS         := $(OBJECTS:.o=.d)
 TEST_DEPS    := $(TEST_OBJECTS:.o=.d)
-GTEST        := ../googletest
-GTEST_I      := -I$(GTEST)/include -I. -I../stdcore
-GTEST_L      := -L$(GTEST) -L. -L../stdcore
+GTEST_I      := -I$(GOOGLE_TEST_PATH)/include -I. -I../stdcore
+GTEST_L      := -L$(GOOGLE_TEST_PATH)/make -L. -L../stdcore
 TARGET		 = libmathcore.a
 TEST_TARGET  = test_mathcore
 
@@ -31,16 +30,13 @@ math/%.o: math/%.cpp
 	$(CXX) $(CXXFLAGS) -MM -MF $(patsubst %.o,%.d,$@) -MT $@ -c $<
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-$(TEST_TARGET): $(TEST_OBJECTS) test/gtest_main.o
-	$(CXX) $(CXXFLAGS) $(GTEST_L) $(TEST_OBJECTS) test/gtest_main.o -pthread -lmathcore -lstdcore -lgtest -o $(TEST_TARGET)
+$(TEST_TARGET): $(TEST_OBJECTS) $(GOOGLE_TEST_PATH)/make/gtest_main.o
+	$(CXX) $(CXXFLAGS) $(GTEST_L) $^ -pthread -lmathcore -lstdcore -l:gtest.a -o $(TEST_TARGET)
 
 test/%.o: test/%.cpp
 	$(CXX) $(CXXFLAGS) $(GTEST_I) -MM -MF $(patsubst %.o,%.d,$@) -MT $@ -c $<
 	$(CXX) $(CXXFLAGS) $(GTEST_I) $< -c -o $@
 	
-test/gtest_main.o: $(GTEST)/src/gtest_main.cc
-	$(CXX) $(CXXFLAGS) $(GTEST_I) $< -c -o $@
-
 clean:
 	rm -f math/*.o test/*.o
 	rm -f math/*.d test/*.d
