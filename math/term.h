@@ -39,7 +39,7 @@ struct term
 	int degree();
 };
 
-ascii_stream &operator<<(ascii_stream &os, term t);
+stream<string> &operator<<(stream<string> &os, term t);
 
 term operator-(term t);
 

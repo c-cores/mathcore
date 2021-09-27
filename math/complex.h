@@ -21,7 +21,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <std/math.h>
+#include <math/base.h>
 
 #ifndef complex_h
 #define complex_h

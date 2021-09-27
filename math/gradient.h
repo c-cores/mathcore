@@ -124,7 +124,7 @@ struct gradient
 };
 
 template <class t, int s>
-ascii_stream &operator<<(ascii_stream &os, gradient<t, s> g)
+stream<string> &operator<<(stream<string> &os, gradient<t, s> g)
 {
 	os << "(" << g.elems[s] << ": ";
 	for (int i = 0; i < s; i++)

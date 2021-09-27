@@ -62,7 +62,7 @@ struct simple_poly
 	simple_poly operator()(vector<simple_poly, 4> f);
 };
 
-ascii_stream &operator<<(ascii_stream &fout, simple_poly p);
+stream<string> &operator<<(stream<string> &fout, simple_poly p);
 
 simple_poly operator+(simple_poly p1, simple_poly p2);
 simple_poly operator+(simple_poly p, term t);
@@ -136,7 +136,7 @@ struct poly
 	poly operator()(vector<poly, 4> f);
 };
 
-ascii_stream &operator<<(ascii_stream &fout, poly p);
+stream<string> &operator<<(stream<string> &fout, poly p);
 
 poly operator+(poly p1, poly p2);
 poly operator+(double d, poly p);

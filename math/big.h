@@ -22,7 +22,7 @@
  */
 
 #include <std/array.h>
-#include <std/ascii_stream.h>
+#include <std/io.h>
 
 #ifndef big_h
 #define big_h
@@ -73,7 +73,7 @@ struct Integer
 	Integer &operator>>=(Integer i);
 };
 
-ascii_stream &operator<<(ascii_stream &f, Integer i);
+stream<string> &operator<<(stream<string> &f, Integer i);
 
 Integer operator-(Integer i);
 
@@ -135,7 +135,7 @@ struct Real
 	Real &operator/=(Real f);
 };
 
-ascii_stream &operator<< (ascii_stream &fin, Real f);
+stream<string> &operator<< (stream<string> &fin, Real f);
 
 Real operator-(Real f);
 

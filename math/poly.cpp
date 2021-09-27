@@ -140,7 +140,7 @@ simple_poly simple_poly::operator()(vector<simple_poly, 4> f)
 	return result;
 }
 
-ascii_stream &operator<<(ascii_stream &fout, simple_poly p)
+stream<string> &operator<<(stream<string> &fout, simple_poly p)
 {
 	for (int i = 0; i < p.terms.size(); i++)
 	{
@@ -469,12 +469,12 @@ poly::poly()
 
 poly::poly(string s)
 {
-	string::iterator p0 = find_first(s, '(');
+	string::iterator p0 = find_first(s, '(')+1;
 	string::iterator p1 = find_first(s, ')');
-	string::iterator p2 = find_last(s, '(');
+	string::iterator p2 = find_last(s, '(')+1;
 	string::iterator p3 = find_last(s, ')');
-	string n = string::sub(p0+1, p1);
-	string d = string::sub(p2+1, p3);
+	string n = p0.sub(p1 - p0);
+	string d = p2.sub(p3 - p2);
 
 	numerator = simple_poly(n);
 	denominator = simple_poly(d);
@@ -568,7 +568,7 @@ poly poly::operator()(vector<poly, 4> f)
 	return n/d;
 }
 
-ascii_stream &operator<<(ascii_stream &fout, poly p)
+stream<string> &operator<<(stream<string> &fout, poly p)
 {
 	fout << "(" << p.numerator << ")/(" << p.denominator << ")";
 	return fout;

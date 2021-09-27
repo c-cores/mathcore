@@ -23,9 +23,9 @@
 
 #include <math/big.h>
 #include <math/vector.h>
-#include <std/math.h>
+#include <math/base.h>
 
-#include <std/ascii_stream.h>
+#include <std/io.h>
 
 #ifndef matrix_h
 #define matrix_h
@@ -353,7 +353,7 @@ struct matrix
 };
 
 template <class t, int v, int h>
-ascii_stream &operator<<(ascii_stream &f, matrix<t, v, h> m)
+stream<string> &operator<<(stream<string> &f, matrix<t, v, h> m)
 {
 	for (int i = 0; i < v; i++)
 		f << m[i] << endl;

@@ -98,7 +98,7 @@ int term::degree()
 	return deg;
 }
 
-ascii_stream &operator<<(ascii_stream &fout, term t)
+stream<string> &operator<<(stream<string> &fout, term t)
 {
 	double co = t.coeff;
 	if (co < 0.0)

@@ -21,8 +21,8 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <std/math.h>
-#include <std/ascii_stream.h>
+#include <math/base.h>
+#include <std/io.h>
 #include <stdarg.h>
 
 #ifndef vector_h
@@ -239,7 +239,7 @@ struct vector
 };
 
 template <class t, int s>
-ascii_stream &operator<<(ascii_stream &f, vector<t, s> v)
+stream<string> &operator<<(stream<string> &f, vector<t, s> v)
 {
 	f << "[";
 	for (int i = 0; i < s; i++)
