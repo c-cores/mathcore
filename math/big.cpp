@@ -1,29 +1,6 @@
-/*
- * big.cpp
- * Blaze Game Engine v0.11
- *
- * Created by Ned Bingham on June 10, 2012.
- * Modified by Ned Bingham on June 10, 2012.
- * Copyright 2011 Sol Union. All rights reserved.
- *
- * Blaze Game Engine v0.11 is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation, either version 3 of the License,
- * or (at your option) any later version.
- *
- * Blaze Game Engine v0.11 is distributed in the hope that it will
- * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Blaze Game Engine v0.11.
- * If not, see <http://www.gnu.org/licenses/>.
- */
-
+#include <string.h>
+#include <string>
 #include <math/big.h>
-#include <std/io.h>
-#include <std/fill.h>
 #include <math/base.h>
 #include <float.h>
 
@@ -192,7 +169,7 @@ Integer::Integer(const char *s)
 		value_width -= s;
 	}	
 
-	for (int i = 0; i < data.size(); i++)
+	for (int i = 0; i < (int)data.size(); i++)
 		printf("%8X ", data[i]);
 	printf("\n");
 }
@@ -237,7 +214,7 @@ Integer Integer::rand(int width)
 Integer::operator double()
 {
 	double result = 0;
-	for (int i = 0; i < data.size(); i++)
+	for (int i = 0; i < (int)data.size(); i++)
 		result += ::pow(2147483648.0, (double)i)*(double)(data[i] ^ sign);
 
 	if (sign != 0)
@@ -263,7 +240,7 @@ Integer &Integer::operator=(Integer i)
 
 Integer &Integer::operator+=(Integer i)
 {
-	int m = data.size() < i.data.size() ? data.size() : i.data.size();
+	int m = (int)data.size() < (int)i.data.size() ? (int)data.size() : (int)i.data.size();
 	int carry = 0;
 	for (int j = 0; j < m; j++)
 	{
@@ -271,13 +248,13 @@ Integer &Integer::operator+=(Integer i)
 		carry = (int)(data[j] < 0);
 		data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < i.data.size(); j++)
+	for (int j = m; j < (int)i.data.size(); j++)
 	{
 		data.push_back(i.data[j] + sign + carry);
 		carry = (int)(data[j] < 0);
 		data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < data.size(); j++)
+	for (int j = m; j < (int)data.size(); j++)
 	{
 		data[j] += i.sign + carry;
 		carry = (int)(data[j] < 0);
@@ -296,7 +273,7 @@ Integer &Integer::operator+=(Integer i)
 
 Integer &Integer::operator-=(Integer i)
 {
-	int m = data.size() < i.data.size() ? data.size() : i.data.size();
+	int m = (int)data.size() < (int)i.data.size() ? (int)data.size() : (int)i.data.size();
 	int carry = 1;
 	int isign = (~i.sign & 0x7FFFFFFF);
 	for (int j = 0; j < m; j++)
@@ -305,13 +282,13 @@ Integer &Integer::operator-=(Integer i)
 		carry = (int)(data[j] < 0);
 		data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < i.data.size(); j++)
+	for (int j = m; j < (int)i.data.size(); j++)
 	{
 		data.push_back((~i.data[j] & 0x7FFFFFFF) + sign + carry);
 		carry = (int)(data[j] < 0);
 		data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < data.size(); j++)
+	for (int j = m; j < (int)data.size(); j++)
 	{
 		data[j] += isign + carry;
 		carry = (int)(data[j] < 0);
@@ -348,12 +325,12 @@ Integer &Integer::operator%=(Integer i)
 
 Integer &Integer::operator&=(Integer i)
 {
-	int m = data.size() < i.data.size() ? data.size() : i.data.size();
+	int m = (int)data.size() < (int)i.data.size() ? (int)data.size() : (int)i.data.size();
 	for (int j = 0; j < m; j++)
 		data[j] &= i.data[j];
-	for (int j = m; j < data.size(); j++)
+	for (int j = m; j < (int)data.size(); j++)
 		data[j] &= i.sign;
-	for (int j = m; j < i.data.size(); j++)
+	for (int j = m; j < (int)i.data.size(); j++)
 		data.push_back(sign & i.data[j]);
 	sign &= i.sign;
 	return *this;
@@ -361,12 +338,12 @@ Integer &Integer::operator&=(Integer i)
 
 Integer &Integer::operator|=(Integer i)
 {
-	int m = data.size() < i.data.size() ? data.size() : i.data.size();
+	int m = (int)data.size() < (int)i.data.size() ? (int)data.size() : (int)i.data.size();
 	for (int j = 0; j < m; j++)
 		data[j] |= i.data[j];
-	for (int j = m; j < data.size(); j++)
+	for (int j = m; j < (int)data.size(); j++)
 		data[j] |= i.sign;
-	for (int j = m; j < i.data.size(); j++)
+	for (int j = m; j < (int)i.data.size(); j++)
 		data.push_back(sign | i.data[j]);
 	sign |= i.sign;
 	return *this;
@@ -374,12 +351,12 @@ Integer &Integer::operator|=(Integer i)
 
 Integer &Integer::operator^=(Integer i)
 {
-	int m = data.size() < i.data.size() ? data.size() : i.data.size();
+	int m = (int)data.size() < (int)i.data.size() ? (int)data.size() : (int)i.data.size();
 	for (int j = 0; j < m; j++)
 		data[j] ^= i.data[j];
-	for (int j = m; j < data.size(); j++)
+	for (int j = m; j < (int)data.size(); j++)
 		data[j] ^= i.sign;
-	for (int j = m; j < i.data.size(); j++)
+	for (int j = m; j < (int)i.data.size(); j++)
 		data.push_back(sign ^ i.data[j]);
 	sign ^= i.sign;
 	return *this;
@@ -397,16 +374,20 @@ Integer &Integer::operator>>=(Integer i)
 	return *this;
 }
 
-stream<string> &operator<<(stream<string> &f, Integer i)
+ostream &operator<<(ostream &f, Integer i)
 {
-	f << (double)i << " " << to_hex(i.data) << " " << i.sign;
+	f << (double)i << " {";
+	for (int j = 0; j < (int)i.data.size(); j++) {
+		f << i.data[j] << " ";
+	}
+	f << "} " << i.sign;
 	return f;
 }
 
 Integer operator-(Integer i)
 {
 	int carry = 1;
-	for (int j = 0; j < i.data.size(); j++)
+	for (int j = 0; j < (int)i.data.size(); j++)
 	{
 		i.data[j] = (~i.data[j] & 0x7FFFFFFF) + carry;
 		carry = (int)(i.data[j] < 0);
@@ -427,9 +408,9 @@ Integer operator-(Integer i)
 Integer operator+(Integer i1, Integer i2)
 {
 	Integer result;
-	result.data.reserve(i1.data.size() > i2.data.size() ? i1.data.size() : i2.data.size());
+	result.data.reserve((int)i1.data.size() > (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size());
 
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
 	int carry = 0;
 	for (int j = 0; j < m; j++)
 	{
@@ -437,13 +418,13 @@ Integer operator+(Integer i1, Integer i2)
 		carry = (int)(result.data[j] < 0);
 		result.data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < i2.data.size(); j++)
+	for (int j = m; j < (int)i2.data.size(); j++)
 	{
 		result.data.push_back(i2.data[j] + i1.sign + carry);
 		carry = (int)(result.data[j] < 0);
 		result.data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < i1.data.size(); j++)
+	for (int j = m; j < (int)i1.data.size(); j++)
 	{
 		result.data.push_back(i1.data[j] + i2.sign + carry);
 		carry = (int)(result.data[j] < 0);
@@ -466,7 +447,7 @@ Integer operator+(Integer i1, Integer i2)
 	}
 
 	while (result.data.size() > 0 && result.data.back() == result.sign)
-		result.data.drop_back();
+		result.data.pop_back();
 
 	return result;
 }
@@ -474,9 +455,9 @@ Integer operator+(Integer i1, Integer i2)
 Integer operator-(Integer i1, Integer i2)
 {
 	Integer result;
-	result.data.reserve(i1.data.size() > i2.data.size() ? i1.data.size() : i2.data.size());
+	result.data.reserve((int)i1.data.size() > (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size());
 
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
 	int i2sign = (~i2.sign & 0x7FFFFFFF);
 	int carry = 1;
 	for (int j = 0; j < m; j++)
@@ -485,13 +466,13 @@ Integer operator-(Integer i1, Integer i2)
 		carry = (int)(result.data[j] < 0);
 		result.data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < i2.data.size(); j++)
+	for (int j = m; j < (int)i2.data.size(); j++)
 	{
 		result.data.push_back((~i2.data[j] & 0x7FFFFFFF) + i1.sign + carry);
 		carry = (int)(result.data[j] < 0);
 		result.data[j] &= 0x7FFFFFFF;
 	}
-	for (int j = m; j < i1.data.size(); j++)
+	for (int j = m; j < (int)i1.data.size(); j++)
 	{
 		result.data.push_back(i1.data[j] + i2sign + carry);
 		carry = (int)(result.data[j] < 0);
@@ -514,34 +495,34 @@ Integer operator-(Integer i1, Integer i2)
 	}
 
 	while (result.data.size() > 0 && result.data.back() == result.sign)
-		result.data.drop_back();
+		result.data.pop_back();
 
 	return result;
 }
 
 Integer operator*(Integer i1, Integer i2)
 {
-	array<array<int> > partial_products;
-	partial_products.append_back(fill<array<int> >(i1.data.size() + i2.data.size()+2, array<int>()));
+	vector<vector<int> > partial_products;
+	partial_products.resize(i1.data.size() + (int)i2.data.size()+2, vector<int>());
 
 	int vali, valj;
 
-	for (int i = 0; i <= i1.data.size() + i2.data.size(); i++)
+	for (int i = 0; i <= (int)i1.data.size() + (int)i2.data.size(); i++)
 	{
-		if (i < i1.data.size())
+		if (i < (int)i1.data.size())
 			vali = i1.data[i];
 		else
 			vali = i1.sign;
 
 		if (vali != 0)
-			for (int j = 0; j <= i1.data.size() + i2.data.size(); j++)
+			for (int j = 0; j <= (int)i1.data.size() + (int)i2.data.size(); j++)
 			{
-				if (j < i2.data.size())
+				if (j < (int)i2.data.size())
 					valj = i2.data[j];
 				else
 					valj = i2.sign;
 
-				if (i+j <= i1.data.size() + i2.data.size())
+				if (i+j <= (int)i1.data.size() + (int)i2.data.size())
 				{
 					int i00, i01, i10, i11;
 					i00 = (vali & 0x0000FFFF) * (valj & 0x0000FFFF);
@@ -563,7 +544,7 @@ Integer operator*(Integer i1, Integer i2)
 	result.data.reserve(partial_products.size());
 
 	int carry;
-	for (int i = 0; i < partial_products.size()-1; i++)
+	for (int i = 0; i < (int)partial_products.size()-1; i++)
 	{
 		carry = 0;
 		if (partial_products[i].size() > 0 && partial_products[i].back() < 0)
@@ -581,7 +562,7 @@ Integer operator*(Integer i1, Integer i2)
 			}
 
 			partial_products[i][j-1] += partial_products[i][j];
-			partial_products[i].drop_back();
+			partial_products[i].pop_back();
 			if (partial_products[i][j-1] < 0)
 			{
 				carry++;
@@ -594,16 +575,16 @@ Integer operator*(Integer i1, Integer i2)
 		else
 			result.data.push_back(0);
 
-		if (carry > 0 && i+1 < partial_products.size())
+		if (carry > 0 && i+1 < (int)partial_products.size())
 			partial_products[i+1].push_back(carry);
 		else if (carry > 0)
-			partial_products.push_back(array<int>(fill<int>(1, carry)));
+			partial_products.push_back(vector<int>(1, carry));
 	}
 
 	result.sign = result.data.back();
 
 	while (result.data.size() > 0 && result.data.back() == result.sign)
-		result.data.drop_back();
+		result.data.pop_back();
 
 	return result;
 }
@@ -629,16 +610,16 @@ Integer operator/(Integer i1, Integer i2)
 
 	Integer quotient;
 	Integer remainder;
-	for (int i = i1.data.size()-1; i >= 0; i--)
+	for (int i = (int)i1.data.size()-1; i >= 0; i--)
 	{
 		// shift the remainder left by 1 place
-		remainder.data.push_front(i1.data[i]);
+		remainder.data.insert(remainder.data.begin(), i1.data[i]);
 
-		// At this point, I am guaranteed that remainder.data.size() - i2.data.size() <= 1
+		// At this point, I am guaranteed that remainder.data.size() - (int)i2.data.size() <= 1
 		// y > x, worst case is if y = x+1
 		// (x*2^31 + z)/x = 2^31 + z/x < 2^32
 		unsigned long long ll = 0;
-		for (int j = remainder.data.size()-1; j >= i2.data.size()-1; j--)
+		for (int j = remainder.data.size()-1; j >= (int)i2.data.size()-1; j--)
 		{
 			ll <<= 31;
 			ll |= remainder.data[j];
@@ -685,16 +666,16 @@ Integer operator%(Integer i1, Integer i2)
 
 	Integer quotient;
 	Integer remainder;
-	for (int i = i1.data.size()-1; i >= 0; i--)
+	for (int i = (int)i1.data.size()-1; i >= 0; i--)
 	{
 		// shift the remainder left by 1 place
-		remainder.data.push_front(i1.data[i]);
+		remainder.data.insert(remainder.data.begin(), i1.data[i]);
 
-		// At this point, I am guaranteed that remainder.data.size() - i2.data.size() <= 1
+		// At this point, I am guaranteed that remainder.data.size() - (int)i2.data.size() <= 1
 		// y > x, worst case is if y = x+1
 		// (x*2^31 + z)/x = 2^31 + z/x < 2^32
 		unsigned long long ll = 0;
-		for (int j = remainder.data.size()-1; j >= i2.data.size()-1; j--)
+		for (int j = remainder.data.size()-1; j >= (int)i2.data.size()-1; j--)
 		{
 			ll <<= 31;
 			ll |= remainder.data[j];
@@ -722,14 +703,14 @@ Integer operator%(Integer i1, Integer i2)
 
 bool operator==(Integer i1, Integer i2)
 {
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
 	for (int i = 0; i < m; i++)
 		if (i1.data[i] != i2.data[i])
 			return false;
-	for (int i = m; i < i1.data.size(); i++)
+	for (int i = m; i < (int)i1.data.size(); i++)
 		if (i1.data[i] != i2.sign)
 			return false;
-	for (int i = m; i < i2.data.size(); i++)
+	for (int i = m; i < (int)i2.data.size(); i++)
 		if (i2.data[i] != i1.sign)
 			return false;
 
@@ -738,14 +719,14 @@ bool operator==(Integer i1, Integer i2)
 
 bool operator!=(Integer i1, Integer i2)
 {
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
 	for (int i = 0; i < m; i++)
 		if (i1.data[i] != i2.data[i])
 			return true;
-	for (int i = m; i < i1.data.size(); i++)
+	for (int i = m; i < (int)i1.data.size(); i++)
 		if (i1.data[i] != i2.sign)
 			return true;
-	for (int i = m; i < i2.data.size(); i++)
+	for (int i = m; i < (int)i2.data.size(); i++)
 		if (i2.data[i] != i1.sign)
 			return true;
 
@@ -757,11 +738,11 @@ bool operator>(Integer i1, Integer i2)
 	if (i1.sign != i2.sign)
 		return (i1.sign < i2.sign);
 
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
-	for (int i = i1.data.size()-1; i >= i2.data.size(); i--)
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
+	for (int i = (int)i1.data.size()-1; i >= (int)i2.data.size(); i--)
 		if (i1.data[i] != i2.sign)
 			return (i1.data[i] > i2.sign);
-	for (int i = i2.data.size()-1; i >= i1.data.size(); i--)
+	for (int i = (int)i2.data.size()-1; i >= (int)i1.data.size(); i--)
 		if (i2.data[i] != i1.sign)
 			return (i1.sign > i2.data[i]);
 	for (int i = m-1; i >= 0; i--)
@@ -776,11 +757,11 @@ bool operator<(Integer i1, Integer i2)
 	if (i1.sign != i2.sign)
 		return (i1.sign > i2.sign);
 
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
-	for (int i = i1.data.size()-1; i >= i2.data.size(); i--)
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
+	for (int i = (int)i1.data.size()-1; i >= (int)i2.data.size(); i--)
 		if (i1.data[i] != i2.sign)
 			return (i1.data[i] < i2.sign);
-	for (int i = i2.data.size()-1; i >= i1.data.size(); i--)
+	for (int i = (int)i2.data.size()-1; i >= (int)i1.data.size(); i--)
 		if (i2.data[i] != i1.sign)
 			return (i1.sign < i2.data[i]);
 	for (int i = m-1; i >= 0; i--)
@@ -795,11 +776,11 @@ bool operator>=(Integer i1, Integer i2)
 	if (i1.sign != i2.sign)
 		return (i1.sign < i2.sign);
 
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
-	for (int i = i1.data.size()-1; i >= i2.data.size(); i--)
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
+	for (int i = (int)i1.data.size()-1; i >= (int)i2.data.size(); i--)
 		if (i1.data[i] != i2.sign)
 			return (i1.data[i] > i2.sign);
-	for (int i = i2.data.size()-1; i >= i1.data.size(); i--)
+	for (int i = (int)i2.data.size()-1; i >= (int)i1.data.size(); i--)
 		if (i2.data[i] != i1.sign)
 			return (i1.sign > i2.data[i]);
 	for (int i = m-1; i >= 0; i--)
@@ -814,11 +795,11 @@ bool operator<=(Integer i1, Integer i2)
 	if (i1.sign != i2.sign)
 		return (i1.sign > i2.sign);
 
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
-	for (int i = i1.data.size()-1; i >= i2.data.size(); i--)
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
+	for (int i = (int)i1.data.size()-1; i >= (int)i2.data.size(); i--)
 		if (i1.data[i] != i2.sign)
 			return (i1.data[i] < i2.sign);
-	for (int i = i2.data.size()-1; i >= i1.data.size(); i--)
+	for (int i = (int)i2.data.size()-1; i >= (int)i1.data.size(); i--)
 		if (i2.data[i] != i1.sign)
 			return (i1.sign < i2.data[i]);
 	for (int i = m-1; i >= 0; i--)
@@ -831,13 +812,13 @@ bool operator<=(Integer i1, Integer i2)
 Integer operator&(Integer i1, Integer i2)
 {
 	Integer result;
-	result.data.reserve(i1.data.size() > i2.data.size() ? i1.data.size() : i2.data.size());
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
+	result.data.reserve((int)i1.data.size() > (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size());
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
 	for (int i = 0; i < m; i++)
 		result.data.push_back(i1.data[i] & i2.data[i]);
-	for (int i = m; i < i1.data.size(); i++)
+	for (int i = m; i < (int)i1.data.size(); i++)
 		result.data.push_back(i1.data[i] & i2.sign);
-	for (int i = m; i < i2.data.size(); i++)
+	for (int i = m; i < (int)i2.data.size(); i++)
 		result.data.push_back(i1.sign & i2.data[i]);
 	result.sign = i1.sign & i2.sign;
 	return result;
@@ -846,13 +827,13 @@ Integer operator&(Integer i1, Integer i2)
 Integer operator|(Integer i1, Integer i2)
 {
 	Integer result;
-	result.data.reserve(i1.data.size() > i2.data.size() ? i1.data.size() : i2.data.size());
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
+	result.data.reserve((int)i1.data.size() > (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size());
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
 	for (int i = 0; i < m; i++)
 		result.data.push_back(i1.data[i] | i2.data[i]);
-	for (int i = m; i < i1.data.size(); i++)
+	for (int i = m; i < (int)i1.data.size(); i++)
 		result.data.push_back(i1.data[i] | i2.sign);
-	for (int i = m; i < i2.data.size(); i++)
+	for (int i = m; i < (int)i2.data.size(); i++)
 		result.data.push_back(i1.sign | i2.data[i]);
 	result.sign = i1.sign | i2.sign;
 	return result;
@@ -861,13 +842,13 @@ Integer operator|(Integer i1, Integer i2)
 Integer operator^(Integer i1, Integer i2)
 {
 	Integer result;
-	result.data.reserve(i1.data.size() > i2.data.size() ? i1.data.size() : i2.data.size());
-	int m = i1.data.size() < i2.data.size() ? i1.data.size() : i2.data.size();
+	result.data.reserve((int)i1.data.size() > (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size());
+	int m = (int)i1.data.size() < (int)i2.data.size() ? (int)i1.data.size() : (int)i2.data.size();
 	for (int i = 0; i < m; i++)
 		result.data.push_back(i1.data[i] ^ i2.data[i]);
-	for (int i = m; i < i1.data.size(); i++)
+	for (int i = m; i < (int)i1.data.size(); i++)
 		result.data.push_back(i1.data[i] ^ i2.sign);
-	for (int i = m; i < i2.data.size(); i++)
+	for (int i = m; i < (int)i2.data.size(); i++)
 		result.data.push_back(i1.sign ^ i2.data[i]);
 	result.sign = i1.sign ^ i2.sign;
 	return result;
@@ -885,10 +866,10 @@ Integer operator<<(Integer i1, int i2)
 		int b = i2%31;
 
 		Integer result;
-		result.data.append_back(fill<int>(i1.data.size() + a + 1, 0));
+		result.data.resize(i1.data.size() + a + 1, 0);
 
 		result.data.back() = ((i1.sign << b) & 0x7FFFFFFF) | ((i1.data.back() >> (31 - b)) & 0x7FFFFFFF);
-		for (int i = a+1; i < result.data.size()-1; i++)
+		for (int i = a+1; i < (int)result.data.size()-1; i++)
 			result.data[i] = ((i1.data[i-a] << b) & 0x7FFFFFFF) | ((i1.data[i-a-1] >> (31 - b)) & 0x7FFFFFFF);
 		result.data[a] = (i1.data[0] << b) & 0x7FFFFFFF;
 		for (int i = 0; i < a; i++)
@@ -896,7 +877,7 @@ Integer operator<<(Integer i1, int i2)
 		result.sign = i1.sign;
 
 		while (result.data.size() > 0 && result.data.back() == result.sign)
-			result.data.drop_back();
+			result.data.pop_back();
 
 		return result;
 	}
@@ -913,17 +894,17 @@ Integer operator>>(Integer i1, int i2)
 
 		Integer result;
 		result.sign = i1.sign;
-		if (i1.data.size() > a)
+		if ((int)i1.data.size() > a)
 		{
 			result.data.reserve(i1.data.size() - a);
 
-			for (int i = 0; i < i1.data.size() - a - 1; i++)
+			for (int i = 0; i < (int)i1.data.size() - a - 1; i++)
 				result.data.push_back(((i1.data[i+a] >> b) | (i1.data[i+a+1] << (31 - b))) & 0x7FFFFFFF);
 
 			result.data.push_back(((i1.data.back() >> b) | (i1.sign << (31 - b))) & 0x7FFFFFFF);
 
 			while (result.data.size() > 0 && result.data.back() == result.sign)
-				result.data.drop_back();
+				result.data.pop_back();
 		}
 
 		return result;
@@ -1066,7 +1047,7 @@ void Real::realign()
 {
 	while (num.data.size() > 0 && num.data[0] == 0)
 	{
-		num.data.drop_front();
+		num.data.erase(num.data.begin());
 		exp += 31;
 	}
 
@@ -1112,7 +1093,7 @@ Real &Real::operator/=(Real f)
 	return *this;
 }
 
-stream<string> &operator<<(stream<string> &fout, Real f)
+ostream &operator<<(ostream &fout, Real f)
 {
 	fout << (double)f << " " << f.exp << " " << f.num;
 	return fout;
@@ -1205,13 +1186,13 @@ Real operator/(Real f1, Real f2)
 	for (int i = f1.num.data.size()-1; i >= 0; i--)
 	{
 		// shift the remainder left by 1 place
-		remainder.data.push_front(f1.num.data[i]);
+		remainder.data.insert(remainder.data.begin(), f1.num.data[i]);
 
 		// At this point, I am guaranteed that remainder.data.size() - f2.data.size() <= 1
 		// y > x, worst case is if y = x+1
 		// (x*2^31 + z)/x = 2^31 + z/x < 2^32
 		unsigned long long ll = 0;
-		for (int j = remainder.data.size()-1; j >= f2.num.data.size()-1; j--)
+		for (int j = (int)remainder.data.size()-1; j >= (int)f2.num.data.size()-1; j--)
 		{
 			ll <<= 31;
 			ll |= remainder.data[j];
@@ -1231,16 +1212,16 @@ Real operator/(Real f1, Real f2)
 		quotient.num += (result << (i*31));
 	}
 
-	while (remainder != Integer(0) && quotient.num.data.size() < quotient.limit)
+	while (remainder != Integer(0) && (int)quotient.num.data.size() < quotient.limit)
 	{
 		// shift the remainder left by 1 place
-		remainder.data.push_front(0);
+		remainder.data.insert(remainder.data.begin(), 0);
 
 		// At this point, I am guaranteed that remainder.data.size() - f2.data.size() <= 1
 		// y > x, worst case is if y = x+1
 		// (x*2^31 + z)/x = 2^31 + z/x < 2^32
 		unsigned long long ll = 0;
-		for (int j = remainder.data.size()-1; j >= f2.num.data.size()-1; j--)
+		for (int j = (int)remainder.data.size()-1; j >= (int)f2.num.data.size()-1; j--)
 		{
 			ll <<= 31;
 			ll |= remainder.data[j];

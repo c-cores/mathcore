@@ -1,27 +1,19 @@
-/*
- * matrix_stack.h
- *
- *  Created on: May 24, 2015
- *      Author: nbingham
- */
+#pragma once
 
 #include <math/matrix.h>
-#include <std/array.h>
+#include <vector>
 
 using namespace core;
-
-#ifndef matrix_stack_h
-#define matrix_stack_h
 
 namespace core
 {
 
 template <class t, int s>
-struct matrix_stack : array<matrix<t, s, s> >
+struct matrix_stack : vector<matrix<t, s, s> >
 {
 	matrix_stack()
 	{
-		array<matrix<t, s, s> >::push_back(identity<t, s, s>());
+		vector<matrix<t, s, s> >::push_back(identity<t, s, s>());
 		total = identity<t, s, s>();
 		updated = true;
 	}
@@ -36,8 +28,8 @@ struct matrix_stack : array<matrix<t, s, s> >
 
 	matrix_stack<t, s> &operator=(matrix<t, s, s> m)
 	{
-		array<matrix<t, s, s> >::clear();
-		array<matrix<t, s, s> >::push_back(m);
+		vector<matrix<t, s, s> >::clear();
+		vector<matrix<t, s, s> >::push_back(m);
 		total = m;
 		updated = true;
 		return *this;
@@ -46,74 +38,74 @@ struct matrix_stack : array<matrix<t, s, s> >
 	matrix_stack<t, s> &operator+=(matrix<t, s, s> m)
 	{
 		updated = false;
-		array<matrix<t, s, s> >::back() += m;
+		vector<matrix<t, s, s> >::back() += m;
 		return *this;
 	}
 
 	matrix_stack<t, s> &operator-=(matrix<t, s, s> m)
 	{
 		updated = false;
-		array<matrix<t, s, s> >::back() += m;
+		vector<matrix<t, s, s> >::back() += m;
 		return *this;
 	}
 
 	matrix_stack<t, s> &operator*=(matrix<t, s, s> m)
 	{
 		updated = false;
-		array<matrix<t, s, s> >::back() *= m;
+		vector<matrix<t, s, s> >::back() *= m;
 		return *this;
 	}
 
 	matrix_stack<t, s> &operator/=(matrix<t, s, s> m)
 	{
 		updated = false;
-		array<matrix<t, s, s> >::back() /= m;
+		vector<matrix<t, s, s> >::back() /= m;
 		return *this;
 	}
 
 	matrix_stack<t, s> &operator+=(t v)
 	{
 		updated = false;
-		return (array<matrix<t, s, s> >::back() += v);
+		return (vector<matrix<t, s, s> >::back() += v);
 	}
 
 	matrix_stack<t, s> &operator-=(t v)
 	{
 		updated = false;
-		array<matrix<t, s, s> >::back() -= v;
+		vector<matrix<t, s, s> >::back() -= v;
 		return *this;
 	}
 
 	matrix_stack<t, s> &operator*=(t v)
 	{
 		updated = false;
-		array<matrix<t, s, s> >::back() *= v;
+		vector<matrix<t, s, s> >::back() *= v;
 		return *this;
 	}
 
 	matrix_stack<t, s> &operator/=(t v)
 	{
 		updated = false;
-		array<matrix<t, s, s> >::back() /= v;
+		vector<matrix<t, s, s> >::back() /= v;
 		return *this;
 	}
 
 	void push()
 	{
-		array<matrix<t, s, s> >::push_back(identity<t, s, s>());
+		vector<matrix<t, s, s> >::push_back(identity<t, s, s>());
 	}
 
 	void drop()
 	{
 		updated = false;
-		array<matrix<t, s, s> >::drop_back();
+		vector<matrix<t, s, s> >::drop_back();
 	}
 
 	void update()
 	{
 		total = identity<t, s, s>();
-		for (int i = 0; i < array<matrix<t, s, s> >::size(); i++)
-			total *= array<matrix<t, s, s> >::get(i);
+		for (int i = 0; i < vector<matrix<t, s, s> >::size(); i++)
+			total *= vector<matrix<t, s, s> >::get(i);
 		updated = true;
 	}
 
@@ -136,4 +128,3 @@ struct matrix_stack : array<matrix<t, s, s> >
 
 }
 
-#endif

@@ -1,14 +1,9 @@
-/*
- * gradient.h
- *
- *  Created on: Feb 12, 2014
- *      Author: nbingham
- */
+#pragma once
 
 #include <math/vector.h>
+#include <iostream>
 
-#ifndef gradient_h
-#define gradient_h
+using namespace std;
 
 namespace core
 {
@@ -124,7 +119,7 @@ struct gradient
 };
 
 template <class t, int s>
-stream<string> &operator<<(stream<string> &os, gradient<t, s> g)
+ostream &operator<<(ostream &os, gradient<t, s> g)
 {
 	os << "(" << g.elems[s] << ": ";
 	for (int i = 0; i < s; i++)
@@ -581,4 +576,3 @@ bool operator!=(gradient<t, s> l, gradient<t, s> r)
 
 }
 
-#endif

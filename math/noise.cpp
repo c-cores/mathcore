@@ -1,5 +1,4 @@
 #include <math/noise.h>
-#include <std/fill.h>
 
 namespace core
 {
@@ -316,13 +315,13 @@ grad3f fBm(gvec3f point, float H, float lacunarity, float octaves, const noise3h
 	grad3f            value;
 	float frequency, remainder;
 	static bool        first = true;
-	static array<float> exponent_array;
+	static std::vector<float> exponent_array;
 
 	/* precompute and store spectral weights */
 	if (first)
 	{
 		/* seize required memory for exponent_array */
-		exponent_array.append_back(fill<float>(octaves+1, 0.0f));
+		exponent_array.resize(octaves+1, 0.0f);
 		frequency = 1.0;
 		for (int i = 0; i <= octaves; i++)
 		{
@@ -368,13 +367,13 @@ grad3f multifractal(gvec3f point, float H, float lacunarity, float octaves, floa
 	grad3f value;
 	float            frequency, remainder;
 	static bool        first = true;
-	static array<float> exponent_array;
+	static std::vector<float> exponent_array;
 
 	/* precompute and store spectral weights */
 	if (first)
 	{
 		/* seize required memory for exponent_array */
-		exponent_array.append_back(fill<float>(octaves+1, 0.0f));
+		exponent_array.resize(octaves+1, 0.0f);
 		frequency = 1.0;
 		for (int i = 0; i <= octaves; i++)
 		{
@@ -417,13 +416,13 @@ grad3f ridge_noise(gvec3f point, float H, float lacunarity, float octaves, float
 	grad3f result, signal, weight;
 	float           frequency;
 	static bool       first = true;
-	static array<float> exponent_array;
+	static std::vector<float> exponent_array;
 
 	/* precompute and store spectral weights */
 	if (first)
 	{
 		/* seize required memory for exponent_array */
-		exponent_array.append_back(fill<float>(octaves+1, 0.0f));
+		exponent_array.resize(octaves+1, 0.0f);
 		frequency = 1.0;
 		for (int i = 0; i <= octaves; i++)
 		{

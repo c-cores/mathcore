@@ -1,4 +1,4 @@
-CXXFLAGS	 =  -g -O2 -Wall -fmessage-length=0 -I. -I../stdcore
+CXXFLAGS	 =  -g -O2 -Wall -fmessage-length=0 -I.
 # -g -fprofile-arcs -ftest-coverage
 SOURCES		 := $(wildcard math/*.cpp)
 TESTS        := $(wildcard test/*.cpp)
@@ -6,8 +6,8 @@ OBJECTS		 := $(SOURCES:%.cpp=%.o)
 TEST_OBJECTS := $(TESTS:.cpp=.o)
 DEPS         := $(OBJECTS:.o=.d)
 TEST_DEPS    := $(TEST_OBJECTS:.o=.d)
-GTEST_I      := -I$(GOOGLE_TEST_PATH)/include -I. -I../stdcore
-GTEST_L      := -L$(GOOGLE_TEST_PATH)/make -L. -L../stdcore
+GTEST_I      := -I$(GOOGLE_TEST_PATH)/include -I.
+GTEST_L      := -L$(GOOGLE_TEST_PATH)/make -L.
 TARGET		 = libmathcore.a
 TEST_TARGET  = test_mathcore
 
@@ -31,7 +31,7 @@ math/%.o: math/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 $(TEST_TARGET): $(TEST_OBJECTS) $(GOOGLE_TEST_PATH)/make/gtest_main.o
-	$(CXX) $(CXXFLAGS) $(GTEST_L) $^ -pthread -lmathcore -lstdcore -l:gtest.a -o $(TEST_TARGET)
+	$(CXX) $(CXXFLAGS) $(GTEST_L) $^ -pthread -lmathcore -l:gtest.a -o $(TEST_TARGET)
 
 test/%.o: test/%.cpp
 	$(CXX) $(CXXFLAGS) $(GTEST_I) -MM -MF $(patsubst %.o,%.d,$@) -MT $@ -c $<

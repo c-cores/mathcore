@@ -6,7 +6,9 @@
  */
 
 #include <math/term.h>
-#include <std/search.h>
+#include <algorithm>
+
+using namespace std;
 
 namespace core
 {
@@ -31,16 +33,16 @@ term::term(double co, int x, int y, int z, int w)
 
 term::term(string s)
 {
-	string::iterator x = find_first(s, 'x')+1;
-	string::iterator y = find_first(s, 'y')+1;
-	string::iterator z = find_first(s, 'z')+1;
-	string::iterator w = find_first(s, 'w')+1;
+	size_t x = s.find('x')+1;
+	size_t y = s.find('y')+1;
+	size_t z = s.find('z')+1;
+	size_t w = s.find('w')+1;
 
-	coeff = strtod(s.ptr(0), NULL);
-	a = strtol(x.ptr(), NULL, 10);
-	b = strtol(y.ptr(), NULL, 10);
-	c = strtol(z.ptr(), NULL, 10);
-	d = strtol(w.ptr(), NULL, 10);
+	coeff = strtod(&s[0], NULL);
+	a = strtol(&s[x], NULL, 10);
+	b = strtol(&s[y], NULL, 10);
+	c = strtol(&s[z], NULL, 10);
+	d = strtol(&s[w], NULL, 10);
 }
 
 term::~term()
@@ -98,7 +100,7 @@ int term::degree()
 	return deg;
 }
 
-stream<string> &operator<<(stream<string> &fout, term t)
+ostream &operator<<(ostream &fout, term t)
 {
 	double co = t.coeff;
 	if (co < 0.0)

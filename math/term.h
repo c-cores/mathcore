@@ -1,8 +1,10 @@
-#include <math/vector.h>
-#include <std/string.h>
+#pragma once
 
-#ifndef term_h
-#define term_h
+#include <math/vector.h>
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 namespace core
 {
@@ -39,7 +41,7 @@ struct term
 	int degree();
 };
 
-stream<string> &operator<<(stream<string> &os, term t);
+ostream &operator<<(ostream &os, term t);
 
 term operator-(term t);
 
@@ -57,4 +59,3 @@ bool operator==(term t1, term t2);
 
 }
 
-#endif

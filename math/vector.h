@@ -1,32 +1,10 @@
-/*
- * vector.h
- * Blaze Game Engine v0.11
- *
- * Created by Ned Bingham on December 7, 2011.
- * Modified by Ned Bingham on June 10, 2012.
- * Copyright 2011 Sol Union. All rights reserved.
- *
- * Blaze Game Engine v0.11 is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation, either version 3 of the License,
- * or (at your option) any later version.
- *
- * Blaze Game Engine v0.11 is distributed in the hope that it will
- * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Blaze Game Engine v0.11.
- * If not, see <http://www.gnu.org/licenses/>.
- */
+#pragma once
 
 #include <math/base.h>
-#include <std/io.h>
 #include <stdarg.h>
+#include <iostream>
 
-#ifndef vector_h
-#define vector_h
+using namespace std;
 
 namespace core
 {
@@ -239,7 +217,7 @@ struct vector
 };
 
 template <class t, int s>
-stream<string> &operator<<(stream<string> &f, vector<t, s> v)
+ostream &operator<<(ostream &f, vector<t, s> v)
 {
 	f << "[";
 	for (int i = 0; i < s; i++)
@@ -839,4 +817,3 @@ vector<t, s> clamp(vector<t, s> v, t low, t high)
 
 }
 
-#endif

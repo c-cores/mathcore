@@ -1,17 +1,11 @@
-/*
- * poly.h
- *
- *  Created on: Nov 16, 2013
- *      Author: nbingham
- */
+#pragma once
 
 #include <math/term.h>
-#include <std/array.h>
-#include <std/pair.h>
-#include <std/algorithm.h>
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
-#ifndef poly_h
-#define poly_h
+using namespace std;
 
 namespace core
 {
@@ -22,7 +16,7 @@ struct simple_poly
 	simple_poly(string s);
 	~simple_poly();
 
-	array<term> terms;
+	std::vector<term> terms;
 
 	void simplify();
 	simple_poly exponentiate(int e);
@@ -62,7 +56,7 @@ struct simple_poly
 	simple_poly operator()(vector<simple_poly, 4> f);
 };
 
-stream<string> &operator<<(stream<string> &fout, simple_poly p);
+ostream &operator<<(ostream &fout, simple_poly p);
 
 simple_poly operator+(simple_poly p1, simple_poly p2);
 simple_poly operator+(simple_poly p, term t);
@@ -136,7 +130,7 @@ struct poly
 	poly operator()(vector<poly, 4> f);
 };
 
-stream<string> &operator<<(stream<string> &fout, poly p);
+ostream &operator<<(ostream &fout, poly p);
 
 poly operator+(poly p1, poly p2);
 poly operator+(double d, poly p);
@@ -155,5 +149,3 @@ poly operator/(double d, poly p);
 poly operator/(poly p, double d);
 
 }
-
-#endif

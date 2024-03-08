@@ -1,31 +1,9 @@
-/*
- * big.h
- * Blaze Game Engine v0.11
- *
- * Created by Ned Bingham on June 10, 2011.
- * Modified by Ned Bingham on June 10, 2012.
- * Copyright 2011 Sol Union. All rights reserved.
- *
- * Blaze Game Engine v0.11 is free software: you can redistribute
- * it and/or modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation, either version 3 of the License,
- * or (at your option) any later version.
- *
- * Blaze Game Engine v0.11 is distributed in the hope that it will
- * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Blaze Game Engine v0.11.
- * If not, see <http://www.gnu.org/licenses/>.
- */
+#pragma once
 
-#include <std/array.h>
-#include <std/io.h>
+#include <vector>
+#include <iostream>
 
-#ifndef big_h
-#define big_h
+using namespace std;
 
 namespace core
 {
@@ -45,7 +23,7 @@ struct Integer
 	~Integer();
 
 	int sign;
-	array<int> data;
+	std::vector<int> data;
 
 	static Integer rand(int width);
 	
@@ -73,7 +51,7 @@ struct Integer
 	Integer &operator>>=(Integer i);
 };
 
-stream<string> &operator<<(stream<string> &f, Integer i);
+ostream &operator<<(ostream &f, Integer i);
 
 Integer operator-(Integer i);
 
@@ -135,7 +113,7 @@ struct Real
 	Real &operator/=(Real f);
 };
 
-stream<string> &operator<< (stream<string> &fin, Real f);
+ostream &operator<< (ostream &fin, Real f);
 
 Real operator-(Real f);
 
@@ -158,4 +136,3 @@ Real root(Real f, int r);
 
 }
 
-#endif
